@@ -1,0 +1,10 @@
+# Binary files
+Antigravity.exe
+game/
+
+# Generated data
+viewer/file_data.json
+
+# User specific
+user_preferences.md
+.gemini/

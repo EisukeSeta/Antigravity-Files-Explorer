@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antigravity File Explorer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=JetBrains+Mono&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d0f14;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --accent-color: #4f46e5;
+            --accent-glow: rgba(79, 70, 229, 0.4);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --folder-color: #fbbf24;
+            --file-color: #60a5fa;
+            --exe-color: #f87171;
+            --img-color: #34d399;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(79, 70, 229, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            background: linear-gradient(to right, #818cf8, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .path-indicator {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 16px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .controls {
+            margin-top: 20px;
+        }
+
+        .update-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--accent-glow);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .update-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--accent-glow);
+            filter: brightness(1.1);
+        }
+
+        .update-btn:active {
+            transform: translateY(0);
+        }
+
+        .update-btn.loading {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading .spinner {
+            display: block;
+        }
+
+        .explorer-tree {
+            list-style: none;
+            margin-top: 30px;
+        }
+
+        .tree-item {
+            margin: 4px 0;
+        }
+
+        .tree-node {
+            display: flex;
+            align-items: center;
+            padding: 10px 16px;
+            text-decoration: none;
+            color: inherit;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .tree-node:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--glass-border);
+            transform: translateX(5px);
+        }
+
+        .icon {
+            margin-right: 12px;
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .folder-icon {
+            color: var(--folder-color);
+        }
+
+        .file-icon {
+            color: var(--file-color);
+        }
+
+        .exe-icon {
+            color: var(--exe-color);
+        }
+
+        .img-icon {
+            color: var(--img-color);
+        }
+
+        .name {
+            flex: 1;
+        }
+
+        .meta {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .indent {
+            margin-left: 20px;
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            padding-left: 10px;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Antigravity Explorer</h1>
+            <div class="path-indicator">c:\Win_tools\Antigravity</div>
+            <div class="controls">
+                <button id="updateBtn" class="update-btn">
+                    <span class="spinner"></span>
+                    <span class="btn-text">リストを更新</span>
+                </button>
+            </div>
+        </header>
+
+        <div id="treeContainer">
+            <!-- 階層構造がここに動的に生成されます -->
+        </div>
+
+        <footer>
+            &copy; 2026 Antigravity System | Real-time Update Enabled
+        </footer>
+    </div>
+
+    <script>
+        const treeContainer = document.getElementById('treeContainer');
+        const updateBtn = document.getElementById('updateBtn');
+
+        function formatSize(bytes) {
+            if (!bytes) return '';
+            const units = ['B', 'KB', 'MB', 'GB'];
+            let i = 0;
+            while (bytes >= 1024 && i < units.length - 1) {
+                bytes /= 1024;
+                i++;
+            }
+            return `${bytes.toFixed(1)} ${units[i]}`;
+        }
+
+        function getIcon(item) {
+            if (item.isDir) return '📁';
+            if (item.ext === '.exe') return '⚡';
+            if (['.jpg', '.png', '.gif', '.webp'].includes(item.ext)) return '🖼️';
+            if (['.md', '.txt', '.json'].includes(item.ext)) return '📄';
+            return '📄';
+        }
+
+        function getIconClass(item) {
+            if (item.isDir) return 'folder-icon';
+            if (item.ext === '.exe') return 'exe-icon';
+            if (['.jpg', '.png', '.gif', '.webp'].includes(item.ext)) return 'img-icon';
+            return 'file-icon';
+        }
+
+        function createTreeElement(items) {
+            const ul = document.createElement('ul');
+            ul.className = 'explorer-tree';
+
+            items.sort((a, b) => (b.isDir - a.isDir) || a.name.localeCompare(b.name));
+
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'tree-item';
+
+                const a = document.createElement('a');
+                a.className = 'tree-node';
+                a.href = `/${item.path.replace(/\\/g, '/')}`;
+
+                const icon = document.createElement('span');
+                icon.className = `icon ${getIconClass(item)}`;
+                icon.textContent = getIcon(item);
+
+                const name = document.createElement('span');
+                name.className = 'name';
+                name.textContent = item.name;
+
+                const meta = document.createElement('span');
+                meta.className = 'meta';
+                meta.textContent = item.isDir ? 'Directory' : formatSize(item.size);
+
+                a.appendChild(icon);
+                a.appendChild(name);
+                a.appendChild(meta);
+                li.appendChild(a);
+
+                if (item.isDir && item.children) {
+                    const indent = document.createElement('div');
+                    indent.className = 'indent';
+                    indent.appendChild(createTreeElement(item.children));
+                    li.appendChild(indent);
+                }
+
+                ul.appendChild(li);
+            });
+
+            return ul;
+        }
+
+        async function loadFileList() {
+            try {
+                const response = await fetch('/viewer/file_data.json?t=' + Date.now());
+                const data = await response.json();
+                treeContainer.innerHTML = '';
+                treeContainer.appendChild(createTreeElement(data));
+            } catch (err) {
+                treeContainer.innerHTML = '<p style="color:red; text-align:center;">リストの読み込みに失敗しました。</p>';
+            }
+        }
+
+        updateBtn.addEventListener('click', async () => {
+            updateBtn.classList.add('loading');
+            try {
+                const res = await fetch('/api/update', { method: 'POST' });
+                if (res.ok) {
+                    await loadFileList();
+                } else {
+                    alert('更新に失敗しました。');
+                }
+            } catch (err) {
+                alert('サーバーとの通信に失敗しました。');
+            } finally {
+                updateBtn.classList.remove('loading');
+            }
+        });
+
+        // 初回読み込み
+        loadFileList();
+    </script>
+</body>
+
+</html>
