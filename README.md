@@ -1,5 +1,7 @@
 # Antigravity File Explorer
 
+GitHub Repository: [https://github.com/EisukeSeta/Antigravity-Files-Explorer](https://github.com/EisukeSeta/Antigravity-Files-Explorer)
+
 Antigravityがアクセス可能なローカルディレクトリのファイルを可視化し、ブラウザ上で高度な操作が可能な次世代ファイルエクスプローラーです。
 
 ## 🌟 主な機能
