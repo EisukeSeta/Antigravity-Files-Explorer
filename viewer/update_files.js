@@ -10,7 +10,7 @@ function getFiles(dir, relativeDir = '') {
     let results = [];
 
     files.forEach(file => {
-        if (file === 'viewer' || file === '.git' || file === 'node_modules') return;
+        if (file === '.git' || file === 'node_modules') return;
 
         const fullPath = path.join(dir, file);
         const relPath = path.join(relativeDir, file);
