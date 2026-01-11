@@ -4,13 +4,24 @@ const { execSync } = require('child_process');
 
 const rootDir = 'c:\\Win_tools\\Antigravity';
 const outputFilePath = path.join(rootDir, 'viewer', 'file_data.json');
+const configPath = path.join(rootDir, 'viewer', 'config.json');
+let config = { exclude: [] };
+
+try {
+    if (fs.existsSync(configPath)) {
+        config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+    }
+} catch (err) {
+    console.error('Error loading config:', err);
+}
 
 function getFiles(dir, relativeDir = '') {
     const files = fs.readdirSync(dir);
     let results = [];
 
     files.forEach(file => {
-        if (file === '.git' || file === 'node_modules') return;
+        // config.jsonの除外リストに基づいてスキップ
+        if (config.exclude.includes(file)) return;
 
         const fullPath = path.join(dir, file);
         const relPath = path.join(relativeDir, file);
