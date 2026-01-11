@@ -214,6 +214,33 @@
             margin-left: 20px;
             border-left: 1px solid rgba(255, 255, 255, 0.05);
             padding-left: 10px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .indent.collapsed {
+            display: none;
+        }
+
+        .toggle-arrow {
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+        }
+
+        .toggle-arrow.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .folder-node {
+            cursor: pointer;
         }
 
         .search-container {
@@ -394,7 +421,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>Antigravity Explorer</h1>
+            <h1>Antigravity File Explorer</h1>
             <div class="path-indicator">c:\Win_tools\Antigravity</div>
             <div class="controls">
                 <button id="updateBtn" class="update-btn">
@@ -505,7 +532,16 @@
 
                 const a = document.createElement('a');
                 a.className = 'tree-node';
-                a.href = `/${item.path.replace(/\\/g, '/')}`;
+                if (item.isDir) a.classList.add('folder-node');
+                a.href = item.isDir ? '#' : `/${item.path.replace(/\\/g, '/')}`;
+
+                // トグル矢印の追加（フォルダのみ）
+                if (item.isDir) {
+                    const arrow = document.createElement('span');
+                    arrow.className = 'toggle-arrow';
+                    arrow.innerHTML = '▼';
+                    a.appendChild(arrow);
+                }
 
                 // プレビュー対応ファイルの場合はイベントをハンドリング
                 if (!item.isDir && canPreview(item)) {
@@ -535,8 +571,18 @@
                 if (item.isDir && item.children && item.children.length > 0) {
                     const indent = document.createElement('div');
                     indent.className = 'indent';
-                    indent.appendChild(createTreeElement(item.children, query));
+                    const childUl = createTreeElement(item.children, query);
+                    indent.appendChild(childUl);
                     li.appendChild(indent);
+
+                    // フォルダクリックでトグル
+                    const arrow = a.querySelector('.toggle-arrow');
+                    a.addEventListener('click', (e) => {
+                        if (!item.isDir) return;
+                        e.preventDefault();
+                        indent.classList.toggle('collapsed');
+                        if (arrow) arrow.classList.toggle('collapsed');
+                    });
                 }
 
                 ul.appendChild(li);
