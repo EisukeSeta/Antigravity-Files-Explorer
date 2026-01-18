@@ -768,7 +768,7 @@
             const cachedProjects = localStorage.getItem('antigravity_projects');
             const cachedActiveId = localStorage.getItem('antigravity_active_id');
             const cacheVersion = localStorage.getItem('antigravity_cache_ver');
-            const CURRENT_VER = '4';
+            const CURRENT_VER = '5';
 
             if (cachedProjects && cacheVersion === CURRENT_VER) {
                 projects = JSON.parse(cachedProjects);
@@ -785,7 +785,7 @@
                     },
                     {
                         id: 'repo-full',
-                        name: 'Full Repository',
+                        name: 'Local Files',
                         url: 'repo_data.json',
                         baseUri: 'https://raw.githubusercontent.com/EisukeSeta/Antigravity-Files-Explorer/main/',
                         data: []

@@ -1,65 +1,119 @@
-# Antigravity File Explorer
+# Antigravity Universal File Explorer 🚀
 
 GitHub Repository: [https://github.com/EisukeSeta/Antigravity-Files-Explorer](https://github.com/EisukeSeta/Antigravity-Files-Explorer)
 
-Antigravityがアクセス可能なローカルディレクトリのファイルを可視化し、ブラウザ上で高度な操作が可能な次世代ファイルエクスプローラーです。
+![Deploy to S3](https://github.com/EisukeSeta/Antigravity-Files-Explorer/actions/workflows/deploy.yml/badge.svg)
 
-## 🌟 主な機能
+## 🌐 ライブデモ
 
-- **美しい階層構造表示**: フォルダとファイルをツリー形式で美しく表示。ディレクトリのネストも一目で把握できます。
-- **リアルタイム検索 (New!)**: 
-    - 入力と同時にリストをフィルタリングする高速検索機能を搭載。
-    - 一致したファイル名はハイライト表示され、その場所（パス）も維持したまま表示されます。
-- **マルチ形式プレビュー (New!)**: 
-    - ファイルをクリックするだけで、その場で内容を確認できるプレビューモーダルを搭載。
-    - **画像**: `.jpg`, `.png`, `.gif`, `.webp`, `.svg` に対応。
-    - **マークダウン**: `.md` ファイルをリッチなHTMLとしてレンダリング。
-    - **テキスト・コード**: `.txt`, `.js`, `.py`, `.html`, `LICENSE` 等のコードを整形表示。
-- **ワンクリック更新**: 「リストを更新」ボタンで最新のファイル状態を再スキャンし、即座に反映。
-- **モダンUI**: グラスモフィズムとダークモードを基調とした、直感的で洗練されたデザイン。
+**[https://www.seta.mydns.jp/Antigravity-Files-Explorer/](https://www.seta.mydns.jp/Antigravity-Files-Explorer/)**
 
-## 📂 デプロイ構成
+## 🌟 コンセプト: ユニバーサル・プロジェクト・マネージャー
 
-- `viewer/index.html`: ファイル検索・プレビューエンジンを内蔵したメインUI。
-- `viewer/server.js`: API（ファイルスキャン実行）と静的ファイル提供を行うNode.jsサーバー。
-- `viewer/update_files.js`: ローカルディレクトリを高速走査し、メタデータ構造を抽出するコアロジック。
-- `viewer/config.json`: スキャンから除外するフォルダを指定する設定ファイル。
-- `viewer/file_data.json`: スキャンされたファイル構成のキャッシュデータ（自動生成）。
+あらゆるプロジェクトのファイル構成を一箇所で統合管理・閲覧できる「ユニバーサル・ファイルエクスプローラー」です。ローカル、ウェブ、GitHub、S3など、異なる環境のファイルをプロジェクト単位でシームレスに切り替えながら閲覧できます。
 
-## ✨ 設定 (Config)
+### ✨ 主な機能
 
-`viewer/config.json` を編集することで、エクスプローラーに表示させたくないフォルダ（管理用フォルダなど）を指定できます。
+#### 1. **マルチプロジェクト管理**
+- 左サイドバーから複数のプロジェクトを瞬時に切り替え可能
+- プロジェクトはブラウザのlocalStorageにキャッシュされ、次回アクセス時も即座に利用可能
+- プリセットで「Explorer Source」と「Local Files」が用意されており、すぐに使い始められます
 
-```json
-{
-  "exclude": [
-    ".git",
-    "node_modules"
-  ]
-}
-```
-- **exclude**: 表示から除外したいディレクトリ名のリストを指定します。編集後、「リストを更新」ボタンを押すと反映されます。
+#### 2. **柔軟なプロジェクト追加方法**
+- **📁 Import JSON**: ローカルで生成したJSON構成ファイルをドラッグ＆ドロップで読み込み（サーバー不要）
+- **➕ Add Project**: プロジェクト名、JSON URL、Base URIを入力して手動で追加
+- **URL指定**: GitHub RawやS3など、外部に公開されているJSON構成ファイルから読み込み可能
+
+#### 3. **プロジェクト編集・管理機能**
+- **⚙️ 編集**: プロジェクト名にホバーして設定を変更（名前、JSON URL、Base URI）
+- **🔄 更新**: データを最新版に再取得
+- **✕ 削除**: 不要なプロジェクトを削除（プリセットを除く）
+
+#### 4. **Base URI によるプレビュー先の制御**
+- プロジェクトごとに「Base URI」を設定し、ファイルのプレビュー元を自由に切り替え
+- 例: GitHub Raw URL、S3バケット、ローカルサーバーなど
+- デフォルトはGitHub Raw URLで、リポジトリのファイルを直接プレビュー可能
+
+#### 5. **豊富なプレビュー対応形式**
+- **画像**: `.jpg`, `.png`, `.gif`, `.webp`, `.svg`
+- **Markdown**: `.md`（リッチHTMLとしてレンダリング）
+- **コード**: `.js`, `.json`, `.css`, `.py`, `.html`, `.txt`, `.xml`
+- **シェルスクリプト**: `.ps1`, `.sh`
+- **設定ファイル**: `.yml`, `.yaml`
+- その他: `LICENSE`ファイル
+
+#### 6. **プレミアムUI/UX**
+- モダンなグラスモフィズムデザイン
+- 折りたたみ可能なフォルダツリー
+- リアルタイム検索（ファイル名フィルタリング）
+- レスポンシブレイアウト
+
+## 📂 構成ファイル
+
+- **`viewer/index.html`**: プロジェクト管理機能を搭載したメインUI
+- **`viewer/update_files.js`**: ディレクトリをスキャンして構成データを生成するNode.jsツール
+- **`viewer/server.js`**: ローカルファイルを閲覧するためのCORS対応軽量Webサーバー
+- **`viewer/config.json`**: スキャン対象から除外するフォルダの設定
 
 ## 🚀 使い方
 
-### 1. サーバーを起動する
-ターミナルを開き、リポジトリのルートで以下のコマンドを実行します。
+### 1. アプリにアクセス
+[ライブデモ](https://www.seta.mydns.jp/Antigravity-Files-Explorer/)を開くと、すぐに「Explorer Source」と「Local Files」が利用できます。
+
+### 2. ローカルファイルを閲覧する（重要）
+
+ブラウザのセキュリティ制限（Mixed Content）により、HTTPS環境のアプリからHTTPのローカルサーバーへのアクセスはブロックされます。ローカルファイルを閲覧する場合は、**アプリ自体もローカルサーバー経由で開く**必要があります。
+
+1.  **ローカルサーバーを起動する**:
+    ```powershell
+    cd C:\Win_tools\Antigravity
+    node viewer/server.js
+    ```
+2.  **ブラウザでローカル版アプリを開く**:
+    `http://localhost:8000/viewer/index.html`
+3.  **プロジェクト設定を調整する**:
+    「Local Files」の設定（⚙️）を開き、**Base URI** を `http://localhost:8000/` に設定します。
+
+### 3. プロジェクト構成ファイルを生成する
+
+自分のフォルダ構成をJSONファイル化するには、以下のコマンドを実行します。
+
+**基本コマンド:**
 ```powershell
-node viewer/server.js
+node viewer/update_files.js [対象ディレクトリ] [出力ファイル名]
 ```
 
-### 2. ブラウザでアクセス
-以下のURLを開いてください。
-[http://localhost:8000/viewer/index.html](http://localhost:8000/viewer/index.html)
+**使用例:**
+```powershell
+# 特定のフォルダをスキャン
+node viewer/update_files.js C:\MyProject my_project.json
+```
 
-### 3. 操作ガイド
-- **検索**: 上部の検索バーに文字を入れると、即座に絞り込まれます。
-- **閲覧**: ファイルをクリックするとプレビューが表示されます。モーダルの外側をクリックすると閉じます。
-- **同期**: ローカルでファイルを操作（追加・削除・編集）した後は、画面上の「リストを更新」を押してください。
+### 4. プロジェクト設定の管理
+
+サイドバーのプロジェクト名にマウスを合わせると、以下のアイコンが表示されます：
+- **⚙️**: 設定を編集（名前、JSON URL、Base URI）
+- **🔄**: データを再取得
+- **✕**: プロジェクトを削除
 
 ## 🛠️ 技術スタック
-- **Frontend**: Vanilla JS (ES6+), CSS3 (Glassmorphism), [Marked.js](https://marked.js.org/) (MD Rendering)
-- **Backend**: Node.js (Built-in http module), PowerShell/cmd integration
+
+- **Frontend**: Vanilla JavaScript (ES6+), CSS3 (Glassmorphism)
+- **Markdown**: [Marked.js](https://marked.js.org/)
+- **Storage**: Browser LocalStorage（プロジェクト設定のキャッシュ）
+- **Deployment**: AWS S3 + CloudFront + GitHub Actions
+
+## 🎯 ユースケース
+
+- ✅ 複数のGitHubリポジトリを一箇所で閲覧
+- ✅ ローカルプロジェクトのファイル構成を可視化・共有（未コミットの変更も確認可能）
+- ✅ S3バケット内のファイルをブラウザから直接閲覧
+- ✅ 技術ドキュメントやコードベースのナビゲーション
+
+## 📝 ライセンス
+
+このプロジェクトはオープンソースです。自由にご利用ください。
 
 ---
-&copy; 2026 Antigravity System | Advanced Agentic Coding Project
+
+&copy; 2026 Antigravity System | Universal Project Manager
