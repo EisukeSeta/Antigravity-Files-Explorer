@@ -1,0 +1,351 @@
+[
+  {
+    "name": ".gitignore",
+    "path": ".gitignore",
+    "isDir": false,
+    "size": 133,
+    "ext": ""
+  },
+  {
+    "name": "3d-viewer",
+    "path": "3d-viewer",
+    "isDir": true,
+    "children": [
+      {
+        "name": ".github",
+        "path": "3d-viewer\\.github",
+        "isDir": true,
+        "children": [
+          {
+            "name": "workflows",
+            "path": "3d-viewer\\.github\\workflows",
+            "isDir": true,
+            "children": [
+              {
+                "name": "deploy.yml",
+                "path": "3d-viewer\\.github\\workflows\\deploy.yml",
+                "isDir": false,
+                "size": 1408,
+                "ext": ".yml"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": ".gitignore",
+        "path": "3d-viewer\\.gitignore",
+        "isDir": false,
+        "size": 189,
+        "ext": ""
+      },
+      {
+        "name": "3d-viewer.code-workspace",
+        "path": "3d-viewer\\3d-viewer.code-workspace",
+        "isDir": false,
+        "size": 137,
+        "ext": ".code-workspace"
+      },
+      {
+        "name": "deploy-root.ps1",
+        "path": "3d-viewer\\deploy-root.ps1",
+        "isDir": false,
+        "size": 1353,
+        "ext": ".ps1"
+      },
+      {
+        "name": "deploy.ps1",
+        "path": "3d-viewer\\deploy.ps1",
+        "isDir": false,
+        "size": 1441,
+        "ext": ".ps1"
+      },
+      {
+        "name": "DEPLOYMENT.md",
+        "path": "3d-viewer\\DEPLOYMENT.md",
+        "isDir": false,
+        "size": 5380,
+        "ext": ".md"
+      },
+      {
+        "name": "dist",
+        "path": "3d-viewer\\dist",
+        "isDir": true,
+        "children": [
+          {
+            "name": "assets",
+            "path": "3d-viewer\\dist\\assets",
+            "isDir": true,
+            "children": [
+              {
+                "name": "index-B1iERQve.js",
+                "path": "3d-viewer\\dist\\assets\\index-B1iERQve.js",
+                "isDir": false,
+                "size": 652298,
+                "ext": ".js"
+              },
+              {
+                "name": "index-B1iERQve.js.map",
+                "path": "3d-viewer\\dist\\assets\\index-B1iERQve.js.map",
+                "isDir": false,
+                "size": 2629545,
+                "ext": ".map"
+              },
+              {
+                "name": "index-gShQjG2P.css",
+                "path": "3d-viewer\\dist\\assets\\index-gShQjG2P.css",
+                "isDir": false,
+                "size": 12311,
+                "ext": ".css"
+              }
+            ]
+          },
+          {
+            "name": "index.html",
+            "path": "3d-viewer\\dist\\index.html",
+            "isDir": false,
+            "size": 11797,
+            "ext": ".html"
+          }
+        ]
+      },
+      {
+        "name": "GITHUB_ACTIONS.md",
+        "path": "3d-viewer\\GITHUB_ACTIONS.md",
+        "isDir": false,
+        "size": 7086,
+        "ext": ".md"
+      },
+      {
+        "name": "index.html",
+        "path": "3d-viewer\\index.html",
+        "isDir": false,
+        "size": 11726,
+        "ext": ".html"
+      },
+      {
+        "name": "main.js",
+        "path": "3d-viewer\\main.js",
+        "isDir": false,
+        "size": 34235,
+        "ext": ".js"
+      },
+      {
+        "name": "package-lock.json",
+        "path": "3d-viewer\\package-lock.json",
+        "isDir": false,
+        "size": 32073,
+        "ext": ".json"
+      },
+      {
+        "name": "package.json",
+        "path": "3d-viewer\\package.json",
+        "isDir": false,
+        "size": 530,
+        "ext": ".json"
+      },
+      {
+        "name": "README.md",
+        "path": "3d-viewer\\README.md",
+        "isDir": false,
+        "size": 9072,
+        "ext": ".md"
+      },
+      {
+        "name": "samples",
+        "path": "3d-viewer\\samples",
+        "isDir": true,
+        "children": [
+          {
+            "name": "Avocado.glb",
+            "path": "3d-viewer\\samples\\Avocado.glb",
+            "isDir": false,
+            "size": 8110040,
+            "ext": ".glb"
+          },
+          {
+            "name": "Box.glb",
+            "path": "3d-viewer\\samples\\Box.glb",
+            "isDir": false,
+            "size": 1664,
+            "ext": ".glb"
+          },
+          {
+            "name": "DamagedHelmet.glb",
+            "path": "3d-viewer\\samples\\DamagedHelmet.glb",
+            "isDir": false,
+            "size": 3773916,
+            "ext": ".glb"
+          },
+          {
+            "name": "Duck.glb",
+            "path": "3d-viewer\\samples\\Duck.glb",
+            "isDir": false,
+            "size": 120484,
+            "ext": ".glb"
+          }
+        ]
+      },
+      {
+        "name": "style.css",
+        "path": "3d-viewer\\style.css",
+        "isDir": false,
+        "size": 19375,
+        "ext": ".css"
+      },
+      {
+        "name": "TEST_RESULTS.md",
+        "path": "3d-viewer\\TEST_RESULTS.md",
+        "isDir": false,
+        "size": 4785,
+        "ext": ".md"
+      },
+      {
+        "name": "vite.config.js",
+        "path": "3d-viewer\\vite.config.js",
+        "isDir": false,
+        "size": 313,
+        "ext": ".js"
+      }
+    ]
+  },
+  {
+    "name": "Antigravity-Files-Explorer.md",
+    "path": "Antigravity-Files-Explorer.md",
+    "isDir": false,
+    "size": 4454,
+    "ext": ".md"
+  },
+  {
+    "name": "Antigravity.exe",
+    "path": "Antigravity.exe",
+    "isDir": false,
+    "size": 159714360,
+    "ext": ".exe"
+  },
+  {
+    "name": "game",
+    "path": "game",
+    "isDir": true,
+    "children": [
+      {
+        "name": "comic_panel_1.jpg",
+        "path": "game\\comic_panel_1.jpg",
+        "isDir": false,
+        "size": 645069,
+        "ext": ".jpg"
+      },
+      {
+        "name": "comic_panel_2.jpg",
+        "path": "game\\comic_panel_2.jpg",
+        "isDir": false,
+        "size": 607642,
+        "ext": ".jpg"
+      },
+      {
+        "name": "comic_panel_3.jpg",
+        "path": "game\\comic_panel_3.jpg",
+        "isDir": false,
+        "size": 809876,
+        "ext": ".jpg"
+      },
+      {
+        "name": "comic_panel_4.jpg",
+        "path": "game\\comic_panel_4.jpg",
+        "isDir": false,
+        "size": 777575,
+        "ext": ".jpg"
+      }
+    ]
+  },
+  {
+    "name": "LICENSE",
+    "path": "LICENSE",
+    "isDir": false,
+    "size": 1089,
+    "ext": ""
+  },
+  {
+    "name": "README.md",
+    "path": "README.md",
+    "isDir": false,
+    "size": 3710,
+    "ext": ".md"
+  },
+  {
+    "name": "user_preferences.md",
+    "path": "user_preferences.md",
+    "isDir": false,
+    "size": 44,
+    "ext": ".md"
+  },
+  {
+    "name": "viewer",
+    "path": "viewer",
+    "isDir": true,
+    "children": [
+      {
+        "name": "config.json",
+        "path": "viewer\\config.json",
+        "isDir": false,
+        "size": 60,
+        "ext": ".json"
+      },
+      {
+        "name": "file_data.json",
+        "path": "viewer\\file_data.json",
+        "isDir": false,
+        "size": 2637,
+        "ext": ".json"
+      },
+      {
+        "name": "index.html",
+        "path": "viewer\\index.html",
+        "isDir": false,
+        "size": 22710,
+        "ext": ".html"
+      },
+      {
+        "name": "README.md",
+        "path": "viewer\\README.md",
+        "isDir": false,
+        "size": 3710,
+        "ext": ".md"
+      },
+      {
+        "name": "server.js",
+        "path": "viewer\\server.js",
+        "isDir": false,
+        "size": 2318,
+        "ext": ".js"
+      },
+      {
+        "name": "update_files.js",
+        "path": "viewer\\update_files.js",
+        "isDir": false,
+        "size": 1707,
+        "ext": ".js"
+      }
+    ]
+  },
+  {
+    "name": "workspace",
+    "path": "workspace",
+    "isDir": true,
+    "children": []
+  },
+  {
+    "name": "www.seta.mydns.jp",
+    "path": "www.seta.mydns.jp",
+    "isDir": true,
+    "children": [
+      {
+        "name": "index.html",
+        "path": "www.seta.mydns.jp\\index.html",
+        "isDir": false,
+        "size": 1223,
+        "ext": ".html"
+      }
+    ]
+  }
+]
