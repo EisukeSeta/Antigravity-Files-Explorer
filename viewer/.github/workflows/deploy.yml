@@ -21,7 +21,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       
+      
       - name: Deploy to S3
+        working-directory: viewer
         run: |
           aws s3 cp index.html s3://www.seta.mydns.jp/Antigravity-Files-Explorer/index.html
           aws s3 cp file_data.json s3://www.seta.mydns.jp/Antigravity-Files-Explorer/file_data.json
