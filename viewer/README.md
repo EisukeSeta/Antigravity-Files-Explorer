@@ -52,6 +52,7 @@ GitHub Repository: [https://github.com/EisukeSeta/Antigravity-Files-Explorer](ht
 
 - **`index.html`**: プロジェクト管理機能を搭載したメインUI
 - **`update_files.js`**: ディレクトリをスキャンして`file_data.json`を生成するNode.jsツール
+- **`server.js`**: ローカルファイルを閲覧するためのCORS対応軽量Webサーバー
 - **`config.json`**: スキャン対象から除外するフォルダの設定
 - **`file_data.json`**: viewerフォルダ内のファイル構成データ（Explorer Source用）
 - **`3d-viewer.json`**: 3Dビューワーリポジトリのファイル構成データ
@@ -62,20 +63,19 @@ GitHub Repository: [https://github.com/EisukeSeta/Antigravity-Files-Explorer](ht
 ### 1. アプリにアクセス
 [ライブデモ](https://www.seta.mydns.jp/Antigravity-Files-Explorer/)を開くと、すぐに「Explorer Source」と「Full Repository」が利用できます。
 
-### 2. 新しいプロジェクトを追加する
+### 2. ローカルファイルを閲覧する（重要）
 
-#### 方法 A: JSON Importを使う（最も簡単）
-1. 左サイドバー下部の「📁 Import JSON」ボタンをクリック
-2. ローカルで生成した構成ファイル（例: `my_project.json`）を選択
-3. プロジェクト名とBase URIを設定して保存
+ブラウザのセキュリティ制限（Mixed Content）により、HTTPS環境のアプリからHTTPのローカルサーバーへのアクセスはブロックされます。ローカルファイルを閲覧する場合は、**アプリ自体もローカルサーバー経由で開く**必要があります。
 
-#### 方法 B: URLから追加
-1. 左サイドバー下部の「➕ Add Project」ボタンをクリック
-2. 以下を入力：
-   - **Project Name**: 任意のプロジェクト名
-   - **JSON URL**: 構成ファイルのURL（例: `https://example.com/data.json`）
-   - **Base URI**: ファイルプレビュー用のベースURL（例: `https://raw.githubusercontent.com/user/repo/main/`）
-3. 保存してプロジェクトに切り替え
+1.  **ローカルサーバーを起動する**:
+    ```powershell
+    cd C:\Win_tools\Antigravity
+    node viewer/server.js
+    ```
+2.  **ブラウザでローカル版アプリを開く**:
+    `http://localhost:8000/viewer/index.html`
+3.  **プロジェクト設定を調整する**:
+    「Full Repository」の設定（⚙️）を開き、**Base URI** を `http://localhost:8000/` に設定します。
 
 ### 3. プロジェクト構成ファイルを生成する
 
@@ -88,35 +88,11 @@ node viewer/update_files.js [対象ディレクトリ] [出力ファイル名]
 
 **使用例:**
 ```powershell
-# 現在のディレクトリをスキャン
-node viewer/update_files.js
-
 # 特定のフォルダをスキャン
 node viewer/update_files.js C:\MyProject my_project.json
-
-# リポジトリ全体をスキャン
-node viewer/update_files.js C:\Win_tools\Antigravity repo_full.json
 ```
 
-生成されたJSONファイルを「Import JSON」機能で読み込むか、ウェブ上に公開してURLで登録してください。
-
-### 4. 除外設定のカスタマイズ
-
-スキャン時に特定のフォルダを除外したい場合は、`viewer/config.json`を編集します。
-
-```json
-{
-  "exclude": [
-    ".git",
-    "node_modules",
-    "dist",
-    "build",
-    ".vscode"
-  ]
-}
-```
-
-### 5. プロジェクト設定の編集
+### 4. プロジェクト設定の管理
 
 サイドバーのプロジェクト名にマウスを合わせると、以下のアイコンが表示されます：
 - **⚙️**: 設定を編集（名前、JSON URL、Base URI）
@@ -133,10 +109,9 @@ node viewer/update_files.js C:\Win_tools\Antigravity repo_full.json
 ## 🎯 ユースケース
 
 - ✅ 複数のGitHubリポジトリを一箇所で閲覧
-- ✅ ローカルプロジェクトのファイル構成を可視化・共有
+- ✅ ローカルプロジェクトのファイル構成を可視化・共有（未コミットの変更も確認可能）
 - ✅ S3バケット内のファイルをブラウザから直接閲覧
 - ✅ 技術ドキュメントやコードベースのナビゲーション
-- ✅ プロジェクトポートフォリオとしての活用
 
 ## 📝 ライセンス
 

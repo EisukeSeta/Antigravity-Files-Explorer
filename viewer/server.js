@@ -1,55 +1,67 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const { exec } = require('child_process');
 
-const PORT = 8000;
-const ROOT_DIR = 'c:\\Win_tools\\Antigravity';
+const port = 8000;
+
+// 公開するルートディレクトリ（Antigravity直下）
+const baseDir = path.join(__dirname, '..');
 
 const server = http.createServer((req, res) => {
-    // URLからクエリパラメータを削除
-    const urlPath = req.url.split('?')[0];
+    // CORSを許可するヘッダーを追加
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
-    // API 端点: ファイルリストを更新する
-    if (urlPath === '/api/update' && req.method === 'POST') {
-        exec('node c:\\Win_tools\\Antigravity\\viewer\\update_files.js', (error, stdout, stderr) => {
-            if (error) {
-                res.writeHead(500, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ error: stderr }));
-                return;
-            }
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ message: 'Updated' }));
-        });
+    if (req.method === 'OPTIONS') {
+        res.writeHead(204);
+        res.end();
         return;
     }
 
-    // 静的ファイルのサービング
-    let filePath = path.join(ROOT_DIR, urlPath === '/' ? 'viewer/index.html' : urlPath);
+    console.log(`${new Date().toLocaleTimeString()} - Request: ${req.url}`);
 
-    // パスが viewer/ で始まらない場合は補完（ファイルリンク用）
-    if (!urlPath.startsWith('/viewer/') && !urlPath.startsWith('/api/')) {
-        filePath = path.join(ROOT_DIR, urlPath);
+    // URLからパスを解析
+    let filePath = path.join(baseDir, req.url.split('?')[0]);
+    
+    // ディレクトリの場合は index.html を探す
+    if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
+        filePath = path.join(filePath, 'index.html');
     }
 
-    const extname = path.extname(filePath);
-    let contentType = 'text/html';
-    switch (extname) {
-        case '.js': contentType = 'text/javascript'; break;
-        case '.css': contentType = 'text/css'; break;
-        case '.json': contentType = 'application/json'; break;
-        case '.jpg': contentType = 'image/jpeg'; break;
-        case '.png': contentType = 'image/png'; break;
-    }
+    const extname = String(path.extname(filePath)).toLowerCase();
+    const mimeTypes = {
+        '.html': 'text/html',
+        '.js': 'text/javascript',
+        '.css': 'text/css',
+        '.json': 'application/json',
+        '.png': 'image/png',
+        '.jpg': 'image/jpg',
+        '.gif': 'image/gif',
+        '.svg': 'image/svg+xml',
+        '.wav': 'audio/wav',
+        '.mp4': 'video/mp4',
+        '.woff': 'application/font-woff',
+        '.ttf': 'application/font-ttf',
+        '.eot': 'application/vnd.ms-fontobject',
+        '.otf': 'application/font-otf',
+        '.wasm': 'application/wasm',
+        '.md': 'text/markdown',
+        '.ps1': 'text/plain',
+        '.sh': 'text/plain'
+    };
+
+    const contentType = mimeTypes[extname] || 'application/octet-stream';
 
     fs.readFile(filePath, (error, content) => {
         if (error) {
-            if (error.code === 'ENOENT') {
-                res.writeHead(404);
-                res.end('File not found');
+            if (error.code == 'ENOENT') {
+                console.log(`❌ Not Found: ${filePath}`);
+                res.writeHead(404, { 'Content-Type': 'text/html' });
+                res.end('<h1>404 Not Found</h1>', 'utf-8');
             } else {
                 res.writeHead(500);
-                res.end('Internal error: ' + error.code);
+                res.end('Sorry, check with the site admin for error: ' + error.code + ' ..\n');
             }
         } else {
             res.writeHead(200, { 'Content-Type': contentType });
@@ -58,6 +70,12 @@ const server = http.createServer((req, res) => {
     });
 });
 
-server.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}/viewer/index.html`);
+server.listen(port, () => {
+    console.log(`========================================`);
+    console.log(`🚀 Local File Server for Antigravity`);
+    console.log(`========================================`);
+    console.log(`Root Directory: ${baseDir}`);
+    console.log(`Server running at: http://localhost:${port}/`);
+    console.log(`CORS is enabled for all origins.`);
+    console.log(`========================================`);
 });
