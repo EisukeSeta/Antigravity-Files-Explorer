@@ -762,15 +762,24 @@
                     saveToCache();
                 }
             } else {
-                // Initialize with default (current S3 project)
-                const defaultProj = {
-                    id: 'default',
-                    name: 'Antigravity Repo',
-                    url: 'file_data.json',
-                    baseUri: 'https://raw.githubusercontent.com/EisukeSeta/Antigravity-Files-Explorer/main/',
-                    data: []
-                };
-                projects = [defaultProj];
+                // Initialize with default projects
+                const defaultProjs = [
+                    {
+                        id: 'default',
+                        name: 'Explorer Source',
+                        url: 'file_data.json',
+                        baseUri: 'https://raw.githubusercontent.com/EisukeSeta/Antigravity-Files-Explorer/main/viewer/',
+                        data: []
+                    },
+                    {
+                        id: 'repo-full',
+                        name: 'Full Repository',
+                        url: 'repo_data.json',
+                        baseUri: 'https://raw.githubusercontent.com/EisukeSeta/Antigravity-Files-Explorer/main/',
+                        data: []
+                    }
+                ];
+                projects = defaultProjs;
                 activeProjectId = 'default';
             }
             renderProjectList();
