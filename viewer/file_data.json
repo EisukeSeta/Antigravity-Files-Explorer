@@ -1,5 +1,26 @@
 [
   {
+    "name": ".github",
+    "path": ".github",
+    "isDir": true,
+    "children": [
+      {
+        "name": "workflows",
+        "path": ".github\\workflows",
+        "isDir": true,
+        "children": [
+          {
+            "name": "deploy.yml",
+            "path": ".github\\workflows\\deploy.yml",
+            "isDir": false,
+            "size": 1115,
+            "ext": ".yml"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "name": ".gitignore",
     "path": ".gitignore",
     "isDir": false,
@@ -43,7 +64,7 @@
         "name": "3d-viewer.code-workspace",
         "path": "3d-viewer\\3d-viewer.code-workspace",
         "isDir": false,
-        "size": 137,
+        "size": 123,
         "ext": ".code-workspace"
       },
       {
@@ -292,24 +313,31 @@
         "ext": ".json"
       },
       {
+        "name": "deploy.ps1",
+        "path": "viewer\\deploy.ps1",
+        "isDir": false,
+        "size": 1563,
+        "ext": ".ps1"
+      },
+      {
         "name": "file_data.json",
         "path": "viewer\\file_data.json",
         "isDir": false,
-        "size": 2637,
+        "size": 7984,
         "ext": ".json"
       },
       {
         "name": "index.html",
         "path": "viewer\\index.html",
         "isDir": false,
-        "size": 22710,
+        "size": 35954,
         "ext": ".html"
       },
       {
         "name": "README.md",
         "path": "viewer\\README.md",
         "isDir": false,
-        "size": 3710,
+        "size": 3275,
         "ext": ".md"
       },
       {
@@ -343,7 +371,7 @@
         "name": "index.html",
         "path": "www.seta.mydns.jp\\index.html",
         "isDir": false,
-        "size": 1223,
+        "size": 1334,
         "ext": ".html"
       }
     ]
