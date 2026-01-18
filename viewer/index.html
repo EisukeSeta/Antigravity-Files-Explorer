@@ -12,17 +12,19 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         :root {
-            --bg-color: #0d0f14;
+            --bg-color: #0b0d11;
+            --sidebar-bg: rgba(255, 255, 255, 0.03);
             --glass-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
-            --accent-color: #4f46e5;
-            --accent-glow: rgba(79, 70, 229, 0.4);
+            --accent-color: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.4);
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --folder-color: #fbbf24;
             --file-color: #60a5fa;
             --exe-color: #f87171;
             --img-color: #34d399;
+            --sidebar-width: 280px;
         }
 
         * {
@@ -37,13 +39,146 @@
             color: var(--text-primary);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 40px 20px;
-            overflow-x: hidden;
+            overflow: hidden;
             background-image:
-                radial-gradient(circle at 20% 20%, rgba(79, 70, 229, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
                 radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--sidebar-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-right: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 30px 20px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.2rem;
+            background: linear-gradient(to right, #818cf8, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .project-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+
+        .project-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            border-left: 3px solid transparent;
+            /* For nested hover */
+        }
+
+        .project-item-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .project-item-content span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .delete-project {
+            opacity: 0;
+            transition: opacity 0.2s;
+            color: var(--text-secondary);
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        .project-item:hover .delete-project {
+            opacity: 1;
+        }
+
+        .delete-project:hover {
+            color: var(--exe-color);
+            background: rgba(248, 113, 113, 0.1);
+        }
+
+        .project-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .project-item.active {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--text-primary);
+            border-left-color: var(--accent-color);
+        }
+
+        .project-item .icon {
+            font-size: 1.2rem;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .action-btn {
+            width: 100%;
+            background: var(--glass-bg);
+            color: white;
+            border: 1px solid var(--glass-border);
+            padding: 12px;
+            border-radius: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .action-btn:hover {
+            background: var(--accent-color);
+            box-shadow: 0 4px 15px var(--accent-glow);
+            border-color: transparent;
+        }
+
+        .action-btn.primary {
+            background: var(--accent-color);
+            border-color: transparent;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+            align-items: center;
         }
 
         .container {
@@ -55,7 +190,7 @@
             border: 1px solid var(--glass-border);
             border-radius: 24px;
             padding: 40px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
             animation: fadeIn 0.8s ease-out;
         }
 
@@ -74,26 +209,34 @@
         header {
             margin-bottom: 40px;
             text-align: center;
-            position: relative;
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 600;
-            background: linear-gradient(to right, #818cf8, #34d399);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .project-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
         }
 
         .path-indicator {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-secondary);
             background: rgba(0, 0, 0, 0.3);
-            padding: 8px 16px;
-            border-radius: 12px;
-            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 10px;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .controls {
@@ -155,7 +298,7 @@
 
         .explorer-tree {
             list-style: none;
-            margin-top: 30px;
+            margin-top: 20px;
         }
 
         .tree-item {
@@ -169,14 +312,12 @@
             text-decoration: none;
             color: inherit;
             border-radius: 12px;
-            border: 1px solid transparent;
             transition: all 0.2s ease;
         }
 
         .tree-node:hover {
             background: rgba(255, 255, 255, 0.08);
             border-color: var(--glass-border);
-            transform: translateX(5px);
         }
 
         .icon {
@@ -216,7 +357,6 @@
             margin-left: 20px;
             border-left: 1px solid rgba(255, 255, 255, 0.05);
             padding-left: 10px;
-            transition: all 0.3s ease;
             overflow: hidden;
         }
 
@@ -246,13 +386,11 @@
         }
 
         .search-container {
-            margin-top: 24px;
             display: flex;
             justify-content: center;
             width: 100%;
             max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto;
             position: relative;
         }
 
@@ -286,10 +424,82 @@
         }
 
         mark {
-            background: rgba(79, 70, 229, 0.6);
+            background: rgba(99, 102, 241, 0.5);
             color: white;
             border-radius: 4px;
             padding: 0 2px;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 500px;
+            background: #11141a;
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            margin-bottom: 24px;
+        }
+
+        .modal-header h3 {
+            font-size: 1.4rem;
+            color: var(--text-primary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 30px;
         }
 
         /* Preview Modal */
@@ -304,26 +514,21 @@
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            z-index: 2000;
         }
 
         .preview-overlay.active {
             display: flex;
-            opacity: 1;
         }
 
         .preview-content {
             width: 90%;
             max-width: 1000px;
             max-height: 85vh;
-            background: var(--glass-bg);
+            background: #11141a;
             border: 1px solid var(--glass-border);
             border-radius: 24px;
             padding: 30px;
-            position: relative;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
@@ -334,7 +539,6 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            padding-bottom: 15px;
             border-bottom: 1px solid var(--glass-border);
         }
 
@@ -351,7 +555,6 @@
             color: var(--text-secondary);
             font-size: 1.5rem;
             cursor: pointer;
-            transition: color 0.2s ease;
         }
 
         .close-preview:hover {
@@ -361,14 +564,10 @@
         .preview-body {
             flex: 1;
             overflow-y: auto;
-            color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
         }
 
         .preview-body img {
             max-width: 100%;
-            height: auto;
             display: block;
             margin: 0 auto;
             border-radius: 8px;
@@ -381,7 +580,6 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.9rem;
             white-space: pre-wrap;
-            overflow-x: auto;
             border: 1px solid var(--glass-border);
         }
 
@@ -413,38 +611,100 @@
 
         footer {
             margin-top: 40px;
+            padding: 20px;
             text-align: center;
             font-size: 0.8rem;
             color: var(--text-secondary);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <header>
-            <h1>Antigravity File Explorer</h1>
-            <div class="path-indicator">c:\Win_tools\Antigravity</div>
-            <div class="controls">
-                <button id="updateBtn" class="update-btn">
-                    <span class="spinner"></span>
-                    <span class="btn-text">リストを更新</span>
-                </button>
-            </div>
-            <div class="search-container">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="searchInput" class="search-input" placeholder="ファイルを検索..." spellcheck="false">
-            </div>
-        </header>
-
-        <div id="treeContainer">
-            <!-- 階層構造がここに動的に生成されます -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Projects</h2>
         </div>
+        <div id="projectList" class="project-list">
+            <!-- Projects will be injected here -->
+        </div>
+        <div class="sidebar-footer">
+            <button id="addProjectBtn" class="action-btn primary">
+                <span>+</span> Add Project
+            </button>
+            <button id="importBtn" class="action-btn">
+                <span>📂</span> Import JSON
+            </button>
+        </div>
+    </aside>
 
-        <footer>
-            &copy; 2026 Antigravity System | Static Hosting Mode (S3)
-        </footer>
+    <main class="main-content">
+        <div class="container">
+            <header>
+                <h1 id="currentProjectName">Antigravity Explorer</h1>
+                <div class="project-info">
+                    <div id="currentProjectPath" class="path-indicator">Project Root</div>
+                </div>
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" class="search-input" placeholder="ファイルを検索..."
+                        spellcheck="false">
+                </div>
+            </header>
+
+            <div id="treeContainer">
+                <!-- 階層構造がここに動的に生成されます -->
+            </div>
+
+            <footer>
+                &copy; 2026 Antigravity System | Universal Project Manager
+            </footer>
+        </div>
+    </main>
+
+    <!-- Project Modal -->
+    <div id="projectModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>New Project</h3>
+            </div>
+            <div class="form-group">
+                <label>Project Name</label>
+                <input type="text" id="projName" class="form-control" placeholder="e.g. My Awesome Project">
+            </div>
+            <div class="form-group">
+                <label>JSON URL (file_data.json)</label>
+                <input type="text" id="projUrl" class="form-control" placeholder="https://example.com/file_data.json">
+            </div>
+            <div class="form-group">
+                <label>Base URI (for preview)</label>
+                <input type="text" id="projBase" class="form-control" placeholder="https://example.com/files/">
+            </div>
+            <div class="modal-footer">
+                <button id="cancelProj" class="action-btn">Cancel</button>
+                <button id="saveProj" class="action-btn primary">Save Project</button>
+            </div>
+        </div>
     </div>
+
+    <!-- Hidden Input for File Import -->
+    <input type="file" id="fileInput" style="display: none;" accept=".json">
 
     <!-- Preview Modal -->
     <div id="previewOverlay" class="preview-overlay">
@@ -461,16 +721,183 @@
 
     <script>
         const treeContainer = document.getElementById('treeContainer');
-        const updateBtn = document.getElementById('updateBtn');
         const searchInput = document.getElementById('searchInput');
         const previewOverlay = document.getElementById('previewOverlay');
         const previewBody = document.getElementById('previewBody');
         const previewTitle = document.getElementById('previewTitle');
         const closePreview = document.getElementById('closePreview');
+        const projectList = document.getElementById('projectList');
+        const addProjectBtn = document.getElementById('addProjectBtn');
+        const importBtn = document.getElementById('importBtn');
+        const fileInput = document.getElementById('fileInput');
+        const projectModal = document.getElementById('projectModal');
+        const currentProjectName = document.getElementById('currentProjectName');
+        const currentProjectPath = document.getElementById('currentProjectPath');
+        const saveProj = document.getElementById('saveProj');
+        const cancelProj = document.getElementById('cancelProj');
 
+        let projects = [];
+        let activeProjectId = null;
         let allFileData = [];
         let searchQuery = '';
 
+        // --- Persistence ---
+        function saveToCache() {
+            localStorage.setItem('antigravity_projects', JSON.stringify(projects));
+            localStorage.setItem('antigravity_active_id', activeProjectId);
+        }
+
+        function loadFromCache() {
+            const cachedProjects = localStorage.getItem('antigravity_projects');
+            const cachedActiveId = localStorage.getItem('antigravity_active_id');
+            if (cachedProjects) {
+                projects = JSON.parse(cachedProjects);
+                activeProjectId = cachedActiveId;
+            } else {
+                // Initialize with default (current S3 project)
+                const defaultProj = {
+                    id: 'default',
+                    name: 'Seta Explorer',
+                    url: 'file_data.json',
+                    baseUri: '',
+                    data: []
+                };
+                projects = [defaultProj];
+                activeProjectId = 'default';
+            }
+            renderProjectList();
+            if (activeProjectId) {
+                switchToProject(activeProjectId);
+            }
+        }
+
+        // --- Project Management ---
+        function renderProjectList() {
+            projectList.innerHTML = '';
+            projects.forEach(proj => {
+                const item = document.createElement('div');
+                item.className = `project-item ${proj.id === activeProjectId ? 'active' : ''}`;
+
+                const content = document.createElement('div');
+                content.className = 'project-item-content';
+                content.innerHTML = `<span class="icon">📁</span><span>${proj.name}</span>`;
+                content.onclick = () => switchToProject(proj.id);
+
+                const delBtn = document.createElement('span');
+                delBtn.className = 'delete-project';
+                delBtn.innerHTML = '&times;';
+                delBtn.title = 'Delete Project';
+                delBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    deleteProject(proj.id);
+                };
+
+                item.appendChild(content);
+                if (proj.id !== 'default') {
+                    item.appendChild(delBtn);
+                }
+                projectList.appendChild(item);
+            });
+        }
+
+        function deleteProject(id) {
+            if (!confirm('このプロジェクトを削除しますか？')) return;
+            projects = projects.filter(p => p.id !== id);
+            if (activeProjectId === id) {
+                activeProjectId = 'default';
+            }
+            switchToProject(activeProjectId);
+        }
+
+        async function switchToProject(id) {
+            activeProjectId = id;
+            const proj = projects.find(p => p.id === id);
+            if (!proj) return;
+
+            currentProjectName.textContent = proj.name;
+            currentProjectPath.textContent = proj.baseUri || 'Root';
+
+            renderProjectList();
+
+            if (proj.data && proj.data.length > 0) {
+                allFileData = proj.data;
+                renderTree();
+            } else if (proj.url) {
+                await fetchProjectData(proj);
+            }
+            saveToCache();
+        }
+
+        async function fetchProjectData(proj) {
+            treeContainer.innerHTML = '<div style="text-align:center; padding: 40px;">プロジェクトデータを読み込み中...</div>';
+            try {
+                const url = proj.url.includes('?') ? proj.url : `${proj.url}?t=${Date.now()}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                proj.data = data;
+                if (proj.id === activeProjectId) {
+                    allFileData = data;
+                    renderTree();
+                }
+                saveToCache();
+            } catch (err) {
+                treeContainer.innerHTML = '<p style="color:red; text-align:center;">データの取得に失敗しました。URLを確認してください。</p>';
+            }
+        }
+
+        // --- UI Events ---
+        addProjectBtn.onclick = () => {
+            document.getElementById('projName').value = '';
+            document.getElementById('projUrl').value = '';
+            document.getElementById('projBase').value = '';
+            projectModal.classList.add('active');
+        };
+
+        cancelProj.onclick = () => projectModal.classList.remove('active');
+
+        saveProj.onclick = () => {
+            const name = document.getElementById('projName').value;
+            const url = document.getElementById('projUrl').value;
+            const base = document.getElementById('projBase').value;
+
+            if (!name || (!url && !importingData)) return;
+
+            const newProj = {
+                id: Date.now().toString(),
+                name: name,
+                url: url,
+                baseUri: base,
+                data: importingData || []
+            };
+
+            projects.push(newProj);
+            importingData = null;
+            projectModal.classList.remove('active');
+            renderProjectList();
+            switchToProject(newProj.id);
+        };
+
+        let importingData = null;
+        importBtn.onclick = () => fileInput.click();
+        fileInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    importingData = JSON.parse(event.target.result);
+                    document.getElementById('projName').value = file.name.replace('.json', '');
+                    document.getElementById('projUrl').value = '(Imported File)';
+                    projectModal.classList.add('active');
+                } catch (err) {
+                    alert('JSONの解析に失敗しました。');
+                }
+            };
+            reader.readAsText(file);
+        };
+
+        // --- Tree Rendering ---
         function formatSize(bytes) {
             if (!bytes) return '';
             const units = ['B', 'KB', 'MB', 'GB'];
@@ -485,15 +912,14 @@
         function getIcon(item) {
             if (item.isDir) return '📁';
             if (item.ext === '.exe') return '⚡';
-            if (['.jpg', '.png', '.gif', '.webp'].includes(item.ext)) return '🖼️';
-            if (['.md', '.txt', '.json'].includes(item.ext)) return '📄';
+            if (['.jpg', '.png', '.gif', '.webp', '.svg'].includes(item.ext)) return '🖼️';
             return '📄';
         }
 
         function getIconClass(item) {
             if (item.isDir) return 'folder-icon';
             if (item.ext === '.exe') return 'exe-icon';
-            if (['.jpg', '.png', '.gif', '.webp'].includes(item.ext)) return 'img-icon';
+            if (['.jpg', '.png', '.gif', '.webp', '.svg'].includes(item.ext)) return 'img-icon';
             return 'file-icon';
         }
 
@@ -506,15 +932,12 @@
         function filterItems(items, query) {
             if (!query) return items;
             const lowerQuery = query.toLowerCase();
-
             return items.map(item => {
                 const nameMatches = item.name.toLowerCase().includes(lowerQuery);
                 let childrenMatches = [];
-
                 if (item.isDir && item.children) {
                     childrenMatches = filterItems(item.children, query);
                 }
-
                 if (nameMatches || childrenMatches.length > 0) {
                     return { ...item, children: childrenMatches.length > 0 ? childrenMatches : (item.isDir ? [] : undefined) };
                 }
@@ -525,7 +948,6 @@
         function createTreeElement(items, query = '') {
             const ul = document.createElement('ul');
             ul.className = 'explorer-tree';
-
             items.sort((a, b) => (b.isDir - a.isDir) || a.name.localeCompare(b.name));
 
             items.forEach(item => {
@@ -534,10 +956,8 @@
 
                 const a = document.createElement('a');
                 a.className = 'tree-node';
-                if (item.isDir) a.classList.add('folder-node');
-                a.href = item.isDir ? '#' : `/${item.path.replace(/\\/g, '/')}`;
+                a.href = '#';
 
-                // トグル矢印の追加（フォルダのみ）
                 if (item.isDir) {
                     const arrow = document.createElement('span');
                     arrow.className = 'toggle-arrow';
@@ -545,12 +965,8 @@
                     a.appendChild(arrow);
                 }
 
-                // プレビュー対応ファイルの場合はイベントをハンドリング
                 if (!item.isDir && canPreview(item)) {
-                    a.onclick = (e) => {
-                        e.preventDefault();
-                        openPreview(item);
-                    };
+                    a.onclick = (e) => { e.preventDefault(); openPreview(item); };
                 }
 
                 const icon = document.createElement('span');
@@ -577,23 +993,20 @@
                     indent.appendChild(childUl);
                     li.appendChild(indent);
 
-                    // フォルダクリックでトグル
                     const arrow = a.querySelector('.toggle-arrow');
-                    a.addEventListener('click', (e) => {
-                        if (!item.isDir) return;
+                    a.onclick = (e) => {
                         e.preventDefault();
                         indent.classList.toggle('collapsed');
                         if (arrow) arrow.classList.toggle('collapsed');
-                    });
+                    };
                 }
 
                 ul.appendChild(li);
             });
-
             return ul;
         }
 
-        async function renderTree() {
+        function renderTree() {
             const filteredData = filterItems(allFileData, searchQuery);
             treeContainer.innerHTML = '';
             if (filteredData.length === 0 && searchQuery) {
@@ -603,92 +1016,55 @@
             }
         }
 
+        // --- Preview Logic ---
         function canPreview(item) {
             const ext = item.ext;
             const name = item.name.toUpperCase();
-            const imageExts = ['.jpg', '.png', '.gif', '.webp', '.svg'];
-            const textExts = ['.txt', '.js', '.json', '.css', '.py', '.html', '.md', ''];
-
-            // 既知の拡張子、または拡張子なしで特定のファイル名（LICENSE等）をチェック
-            return imageExts.includes(ext) || textExts.includes(ext) || name === 'LICENSE' || name === 'NOTICE';
+            return ['.jpg', '.png', '.gif', '.webp', '.svg', '.txt', '.js', '.json', '.css', '.py', '.html', '.md'].includes(ext) || name === 'LICENSE';
         }
 
         async function openPreview(item) {
-            const path = `/${item.path.replace(/\\/g, '/')}`;
+            const proj = projects.find(p => p.id === activeProjectId);
+            const base = proj.baseUri || '';
+            const cleanPath = item.path.replace(/\\/g, '/');
+            const path = base ? (base.endsWith('/') ? base : base + '/') + (cleanPath.startsWith('/') ? cleanPath.substring(1) : cleanPath) : cleanPath;
+
             previewTitle.textContent = item.name;
             previewBody.innerHTML = '<div style="text-align:center; padding: 40px;">読み込み中...</div>';
             previewOverlay.classList.add('active');
 
             const isImage = ['.jpg', '.png', '.gif', '.webp', '.svg'].includes(item.ext);
-
             if (isImage) {
                 previewBody.innerHTML = `<img src="${path}" alt="${item.name}">`;
             } else {
                 try {
                     const response = await fetch(path);
                     const text = await response.text();
-
                     if (item.ext === '.md') {
                         previewBody.innerHTML = `<div class="markdown-content">${marked.parse(text)}</div>`;
                     } else {
                         previewBody.innerHTML = `<pre><code>${escapeHtml(text)}</code></pre>`;
                     }
                 } catch (err) {
-                    previewBody.innerHTML = '<div style="color:red; text-align:center; padding: 40px;">ファイルの読み込みに失敗しました。</div>';
+                    previewBody.innerHTML = '<div style="color:red; text-align:center; padding: 40px;">ファイルの読み込みに失敗しました。パスを確認してください。</div>';
                 }
             }
         }
 
         function escapeHtml(unsafe) {
-            return unsafe
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+            return unsafe.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
         }
 
-        closePreview.onclick = () => {
-            previewOverlay.classList.remove('active');
-        };
+        closePreview.onclick = () => previewOverlay.classList.remove('active');
+        previewOverlay.onclick = (e) => { if (e.target === previewOverlay) previewOverlay.classList.remove('active'); };
 
-        previewOverlay.onclick = (e) => {
-            if (e.target === previewOverlay) previewOverlay.classList.remove('active');
-        };
-
-        async function loadFileList() {
-            try {
-                const response = await fetch('file_data.json?t=' + Date.now());
-                allFileData = await response.json();
-                renderTree();
-            } catch (err) {
-                treeContainer.innerHTML = '<p style="color:red; text-align:center;">リストの読み込みに失敗しました。</p>';
-            }
-        }
-
-        searchInput.addEventListener('input', (e) => {
+        searchInput.oninput = (e) => {
             searchQuery = e.target.value;
             renderTree();
-        });
+        };
 
-        updateBtn.addEventListener('click', async () => {
-            updateBtn.classList.add('loading');
-            try {
-                const res = await fetch('/api/update', { method: 'POST' });
-                if (res.ok) {
-                    await loadFileList();
-                } else {
-                    alert('更新に失敗しました。');
-                }
-            } catch (err) {
-                alert('サーバーとの通信に失敗しました。');
-            } finally {
-                updateBtn.classList.remove('loading');
-            }
-        });
-
-        // 初回読み込み
-        loadFileList();
+        // Initialize
+        loadFromCache();
     </script>
 </body>
 

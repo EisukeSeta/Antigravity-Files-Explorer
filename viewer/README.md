@@ -1,4 +1,4 @@
-# Antigravity File Explorer
+# Antigravity Universal File Explorer 🚀
 
 GitHub Repository: [https://github.com/EisukeSeta/Antigravity-Files-Explorer](https://github.com/EisukeSeta/Antigravity-Files-Explorer)
 
@@ -6,101 +6,48 @@ GitHub Repository: [https://github.com/EisukeSeta/Antigravity-Files-Explorer](ht
 
 ## 🌐 ライブデモ
 
-**[https://www.seta.mydns.jp/Antigravity-Files-Explorer/](https://www.seta.mydns.jp/Antigravity-Files-Explorer/)** 🚀
+**[https://www.seta.mydns.jp/Antigravity-Files-Explorer/](https://www.seta.mydns.jp/Antigravity-Files-Explorer/)**
 
-AWS S3で静的ホスティング中。ブラウザで直接アクセスしてファイルエクスプローラーを体験できます！  
-**GitHub Actionsによる自動デプロイで常に最新版を公開しています。**
+## 🌟 新しいコンセプト: 多目的プロジェクトマネージャー
 
-Antigravityがアクセス可能なローカルディレクトリのファイルを可視化し、ブラウザ上で高度な操作が可能な次世代ファイルエクスプローラーです。
+これまでの「ローカルファイルの閲覧」という枠を超え、あらゆるファイル構成（ローカル、ウェブ、S3など）をプロジェクト単位で統合管理・閲覧できる「ユニバーサル・ファイルエクスプローラー」に進化しました。
 
-## 🌟 主な機能
+### ✨ 主な新機能
 
-- **美しい階層構造表示**: フォルダとファイルをツリー形式で美しく表示。ディレクトリのネストも一目で把握できます。
-- **リアルタイム検索 (New!)**: 
-    - 入力と同時にリストをフィルタリングする高速検索機能を搭載。
-    - 一致したファイル名はハイライト表示され、その場所（パス）も維持したまま表示されます。
-- **マルチ形式プレビュー (New!)**: 
-    - ファイルをクリックするだけで、その場で内容を確認できるプレビューモーダルを搭載。
-    - **画像**: `.jpg`, `.png`, `.gif`, `.webp`, `.svg` に対応。
-    - **マークダウン**: `.md` ファイルをリッチなHTMLとしてレンダリング。
-    - **テキスト・コード**: `.txt`, `.js`, `.py`, `.html`, `LICENSE` 等のコードを整形表示。
-- **ワンクリック更新**: 「リストを更新」ボタンで最新のファイル状態を再スキャンし、即座に反映。
-- **モダンUI**: グラスモフィズムとダークモードを基調とした、直感的で洗練されたデザイン。
+1.  **マルチプロジェクト管理**:
+    *   サイドバーから複数のプロジェクト（ファイル構成）を瞬時に切り替え可能。
+    *   プロジェクトはブラウザにキャッシュされ、次回アクセス時もすぐに再開できます。
+2.  **ファイル構成の動的読み込み (Import/URL)**:
+    *   **JSON Import**: ローカルで生成した `file_data.json` をドラッグ＆ドロップで読み込み可能（サーバー不要）。
+    *   **URL指定**: 外部サーバーやGitHub上に公開されているファイル構成JSONを指定して読み込み。
+3.  **柔軟なパス解決 (Base URI)**:
+    *   プロジェクトごとに「Base URI」を設定することで、ファイルのプレビュー先を自由に切り替えられます（例：S3バケット、ローカルサーバー、GitHub Raw等）。
+4.  **プレミアム・ユーザーインターフェース**:
+    *   洗練されたサイドバーレイアウト。
+    *   グラスモフィズムを追求したモダンでレスポンシブなデザイン。
 
-## 📂 デプロイ構成
+## 📂 構成ファイル
 
-- `viewer/index.html`: ファイル検索・プレビューエンジンを内蔵したメインUI。
-- `viewer/server.js`: API（ファイルスキャン実行）と静的ファイル提供を行うNode.jsサーバー。
-- `viewer/update_files.js`: ローカルディレクトリを高速走査し、メタデータ構造を抽出するコアロジック。
-- `viewer/config.json`: スキャンから除外するフォルダを指定する設定ファイル。
-- `viewer/file_data.json`: スキャンされたファイル構成のキャッシュデータ（自動生成）。
-
-## ✨ 設定 (Config)
-
-`viewer/config.json` を編集することで、エクスプローラーに表示させたくないフォルダ（管理用フォルダなど）を指定できます。
-
-```json
-{
-  "exclude": [
-    ".git",
-    "node_modules"
-  ]
-}
-```
-- **exclude**: 表示から除外したいディレクトリ名のリストを指定します。編集後、「リストを更新」ボタンを押すと反映されます。
+- `viewer/index.html`: 新しいプロジェクト管理機能を搭載したメインUI。
+- `viewer/update_files.js`: ローカルディレクトリをスキャンし、インポート用の `file_data.json` を生成するツール。
 
 ## 🚀 使い方
 
-### 1. サーバーを起動する
-ターミナルを開き、リポジトリのルートで以下のコマンドを実行します。
+### 1. プロジェクトの追加
+*   **Import JSON**: `update_files.js` で生成したファイルをボタンから選択するだけで、ブラウザにプロジェクトとして登録されます。
+*   **Add Project**: プロジェクト名、JSONのURL、およびプレビュー用のベースURLを入力して登録します。
+
+### 2. ファイル構成の生成（ローカル用）
+自分のPCのファイルを閲覧したい場合は、以下のコマンドで構成ファイルを作成し、それをアプリにインポートしてください。
 ```powershell
-node viewer/server.js
+node viewer/update_files.js
 ```
-
-### 2. ブラウザでアクセス
-以下のURLを開いてください。
-[http://localhost:8000/viewer/index.html](http://localhost:8000/viewer/index.html)
-
-### 3. 操作ガイド
-- **検索**: 上部の検索バーに文字を入れると、即座に絞り込まれます。
-- **閲覧**: ファイルをクリックするとプレビューが表示されます。モーダルの外側をクリックすると閉じます。
-- **同期**: ローカルでファイルを操作（追加・削除・編集）した後は、画面上の「リストを更新」を押してください。
+生成された `viewer/file_data.json` をブラウザにドロップします。
 
 ## 🛠️ 技術スタック
-- **Frontend**: Vanilla JS (ES6+), CSS3 (Glassmorphism), [Marked.js](https://marked.js.org/) (MD Rendering)
-- **Backend (ローカル開発用)**: Node.js (Built-in http module), PowerShell/cmd integration
-
-## ☁️ AWS S3デプロイ
-
-このアプリケーションはAWS S3で静的ホスティング可能です。
-
-### 手動デプロイ
-
-```powershell
-# S3にアップロード
-.\deploy.ps1
-```
-
-### 自動デプロイ (GitHub Actions)
-
-mainブランチにpushすると、自動的にS3にデプロイされます:
-
-```bash
-git push origin main
-```
-
-### デプロイ先
-- **S3バケット**: `s3://www.seta.mydns.jp/Antigravity-Files-Explorer/`
-- **公開URL**: https://www.seta.mydns.jp/Antigravity-Files-Explorer/
-
-### 注意事項
-
-S3静的ホスティングでは、サーバーサイドAPIが使用できないため、以下の制限があります:
-- 「リストを更新」機能は無効化されています
-- `file_data.json`を更新するには、以下の手順が必要です：
-    1.  ローカルで `node viewer/update_files.js` を実行
-    2.  `git add -f viewer/file_data.json` で強制的にステージング（`.gitignore`で除外されているため）
-    3.  `git commit` して `push` すると自動的にS3へ反映されます
+- **Frontend**: Vanilla JS (ES6+), CSS3 (Modern Glassmorphism), [Marked.js](https://marked.js.org/)
+- **Storage**: Browser LocalStorage (Project caching)
+- **Deployment**: AWS S3 + GitHub Actions
 
 ---
-&copy; 2026 Antigravity System | Advanced Agentic Coding Project
+&copy; 2026 Antigravity System | Universal Project Manager project
