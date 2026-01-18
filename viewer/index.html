@@ -442,7 +442,7 @@
         </div>
 
         <footer>
-            &copy; 2026 Antigravity System | Real-time Update Enabled
+            &copy; 2026 Antigravity System | Static Hosting Mode (S3)
         </footer>
     </div>
 
@@ -658,7 +658,7 @@
 
         async function loadFileList() {
             try {
-                const response = await fetch('/viewer/file_data.json?t=' + Date.now());
+                const response = await fetch('file_data.json?t=' + Date.now());
                 allFileData = await response.json();
                 renderTree();
             } catch (err) {
