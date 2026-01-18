@@ -753,13 +753,21 @@
             if (cachedProjects) {
                 projects = JSON.parse(cachedProjects);
                 activeProjectId = cachedActiveId;
+
+                // Migrate/Update default project if needed
+                const defIdx = projects.findIndex(p => p.id === 'default');
+                if (defIdx !== -1 && (!projects[defIdx].baseUri || projects[defIdx].baseUri === '')) {
+                    projects[defIdx].baseUri = 'https://raw.githubusercontent.com/EisukeSeta/Antigravity-Files-Explorer/main/';
+                    projects[defIdx].name = 'Antigravity Repo';
+                    saveToCache();
+                }
             } else {
                 // Initialize with default (current S3 project)
                 const defaultProj = {
                     id: 'default',
-                    name: 'Seta Explorer',
+                    name: 'Antigravity Repo',
                     url: 'file_data.json',
-                    baseUri: '',
+                    baseUri: 'https://raw.githubusercontent.com/EisukeSeta/Antigravity-Files-Explorer/main/',
                     data: []
                 };
                 projects = [defaultProj];
