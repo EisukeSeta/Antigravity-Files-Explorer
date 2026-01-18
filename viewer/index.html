@@ -104,21 +104,29 @@
             text-overflow: ellipsis;
         }
 
-        .delete-project {
+        .delete-project,
+        .refresh-project {
             opacity: 0;
             transition: opacity 0.2s;
             color: var(--text-secondary);
             padding: 4px;
             border-radius: 4px;
+            margin-left: 4px;
         }
 
-        .project-item:hover .delete-project {
+        .project-item:hover .delete-project,
+        .project-item:hover .refresh-project {
             opacity: 1;
         }
 
         .delete-project:hover {
             color: var(--exe-color);
             background: rgba(248, 113, 113, 0.1);
+        }
+
+        .refresh-project:hover {
+            color: var(--img-color);
+            background: rgba(52, 211, 153, 0.1);
         }
 
         .project-item:hover {
@@ -750,19 +758,14 @@
         function loadFromCache() {
             const cachedProjects = localStorage.getItem('antigravity_projects');
             const cachedActiveId = localStorage.getItem('antigravity_active_id');
-            if (cachedProjects) {
+            const cacheVersion = localStorage.getItem('antigravity_cache_ver');
+            const CURRENT_VER = '2';
+
+            if (cachedProjects && cacheVersion === CURRENT_VER) {
                 projects = JSON.parse(cachedProjects);
                 activeProjectId = cachedActiveId;
-
-                // Migrate/Update default project if needed
-                const defIdx = projects.findIndex(p => p.id === 'default');
-                if (defIdx !== -1 && (!projects[defIdx].baseUri || projects[defIdx].baseUri === '')) {
-                    projects[defIdx].baseUri = 'https://raw.githubusercontent.com/EisukeSeta/Antigravity-Files-Explorer/main/';
-                    projects[defIdx].name = 'Antigravity Repo';
-                    saveToCache();
-                }
             } else {
-                // Initialize with default projects
+                // Initialize/Reset with default projects
                 const defaultProjs = [
                     {
                         id: 'default',
@@ -781,6 +784,8 @@
                 ];
                 projects = defaultProjs;
                 activeProjectId = 'default';
+                localStorage.setItem('antigravity_cache_ver', CURRENT_VER);
+                saveToCache();
             }
             renderProjectList();
             if (activeProjectId) {
@@ -800,19 +805,35 @@
                 content.innerHTML = `<span class="icon">📁</span><span>${proj.name}</span>`;
                 content.onclick = () => switchToProject(proj.id);
 
-                const delBtn = document.createElement('span');
-                delBtn.className = 'delete-project';
-                delBtn.innerHTML = '&times;';
-                delBtn.title = 'Delete Project';
-                delBtn.onclick = (e) => {
-                    e.stopPropagation();
-                    deleteProject(proj.id);
-                };
+                const actions = document.createElement('div');
+                actions.style.display = 'flex';
+
+                if (proj.url) {
+                    const refreshBtn = document.createElement('span');
+                    refreshBtn.className = 'refresh-project';
+                    refreshBtn.innerHTML = '🔄';
+                    refreshBtn.title = 'Refresh Data';
+                    refreshBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        fetchProjectData(proj);
+                    };
+                    actions.appendChild(refreshBtn);
+                }
+
+                if (proj.id !== 'default' && proj.id !== 'repo-full') {
+                    const delBtn = document.createElement('span');
+                    delBtn.className = 'delete-project';
+                    delBtn.innerHTML = '&times;';
+                    delBtn.title = 'Delete Project';
+                    delBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        deleteProject(proj.id);
+                    };
+                    actions.appendChild(delBtn);
+                }
 
                 item.appendChild(content);
-                if (proj.id !== 'default') {
-                    item.appendChild(delBtn);
-                }
+                item.appendChild(actions);
                 projectList.appendChild(item);
             });
         }
