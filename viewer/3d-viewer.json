@@ -56,48 +56,6 @@
     "ext": ".md"
   },
   {
-    "name": "dist",
-    "path": "dist",
-    "isDir": true,
-    "children": [
-      {
-        "name": "assets",
-        "path": "dist/assets",
-        "isDir": true,
-        "children": [
-          {
-            "name": "index-B1iERQve.js",
-            "path": "dist/assets/index-B1iERQve.js",
-            "isDir": false,
-            "size": 652298,
-            "ext": ".js"
-          },
-          {
-            "name": "index-B1iERQve.js.map",
-            "path": "dist/assets/index-B1iERQve.js.map",
-            "isDir": false,
-            "size": 2629545,
-            "ext": ".map"
-          },
-          {
-            "name": "index-gShQjG2P.css",
-            "path": "dist/assets/index-gShQjG2P.css",
-            "isDir": false,
-            "size": 12311,
-            "ext": ".css"
-          }
-        ]
-      },
-      {
-        "name": "index.html",
-        "path": "dist/index.html",
-        "isDir": false,
-        "size": 11797,
-        "ext": ".html"
-      }
-    ]
-  },
-  {
     "name": "GITHUB_ACTIONS.md",
     "path": "GITHUB_ACTIONS.md",
     "isDir": false,

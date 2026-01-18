@@ -1,9 +1,16 @@
 [
   {
+    "name": "3d-viewer.json",
+    "path": "3d-viewer.json",
+    "isDir": false,
+    "size": 3859,
+    "ext": ".json"
+  },
+  {
     "name": "config.json",
     "path": "config.json",
     "isDir": false,
-    "size": 60,
+    "size": 71,
     "ext": ".json"
   },
   {
@@ -17,21 +24,21 @@
     "name": "file_data.json",
     "path": "file_data.json",
     "isDir": false,
-    "size": 120,
+    "size": 961,
     "ext": ".json"
   },
   {
     "name": "index.html",
     "path": "index.html",
     "isDir": false,
-    "size": 36350,
+    "size": 38889,
     "ext": ".html"
   },
   {
     "name": "README.md",
     "path": "README.md",
     "isDir": false,
-    "size": 3275,
+    "size": 6707,
     "ext": ".md"
   },
   {

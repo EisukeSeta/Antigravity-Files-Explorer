@@ -89,48 +89,6 @@
         "ext": ".md"
       },
       {
-        "name": "dist",
-        "path": "3d-viewer/dist",
-        "isDir": true,
-        "children": [
-          {
-            "name": "assets",
-            "path": "3d-viewer/dist/assets",
-            "isDir": true,
-            "children": [
-              {
-                "name": "index-B1iERQve.js",
-                "path": "3d-viewer/dist/assets/index-B1iERQve.js",
-                "isDir": false,
-                "size": 652298,
-                "ext": ".js"
-              },
-              {
-                "name": "index-B1iERQve.js.map",
-                "path": "3d-viewer/dist/assets/index-B1iERQve.js.map",
-                "isDir": false,
-                "size": 2629545,
-                "ext": ".map"
-              },
-              {
-                "name": "index-gShQjG2P.css",
-                "path": "3d-viewer/dist/assets/index-gShQjG2P.css",
-                "isDir": false,
-                "size": 12311,
-                "ext": ".css"
-              }
-            ]
-          },
-          {
-            "name": "index.html",
-            "path": "3d-viewer/dist/index.html",
-            "isDir": false,
-            "size": 11797,
-            "ext": ".html"
-          }
-        ]
-      },
-      {
         "name": "GITHUB_ACTIONS.md",
         "path": "3d-viewer/GITHUB_ACTIONS.md",
         "isDir": false,
@@ -306,10 +264,17 @@
     "isDir": true,
     "children": [
       {
+        "name": "3d-viewer.json",
+        "path": "viewer/3d-viewer.json",
+        "isDir": false,
+        "size": 3859,
+        "ext": ".json"
+      },
+      {
         "name": "config.json",
         "path": "viewer/config.json",
         "isDir": false,
-        "size": 60,
+        "size": 71,
         "ext": ".json"
       },
       {
@@ -323,22 +288,29 @@
         "name": "file_data.json",
         "path": "viewer/file_data.json",
         "isDir": false,
-        "size": 120,
+        "size": 1087,
         "ext": ".json"
       },
       {
         "name": "index.html",
         "path": "viewer/index.html",
         "isDir": false,
-        "size": 35954,
+        "size": 38889,
         "ext": ".html"
       },
       {
         "name": "README.md",
         "path": "viewer/README.md",
         "isDir": false,
-        "size": 3275,
+        "size": 6707,
         "ext": ".md"
+      },
+      {
+        "name": "repo_data.json",
+        "path": "viewer/repo_data.json",
+        "isDir": false,
+        "size": 8506,
+        "ext": ".json"
       },
       {
         "name": "server.js",
