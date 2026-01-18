@@ -97,7 +97,10 @@ git push origin main
 
 S3静的ホスティングでは、サーバーサイドAPIが使用できないため、以下の制限があります:
 - 「リストを更新」機能は無効化されています
-- `file_data.json`を更新するには、ローカルで`update_files.js`を実行後、再デプロイが必要です
+- `file_data.json`を更新するには、以下の手順が必要です：
+    1.  ローカルで `node viewer/update_files.js` を実行
+    2.  `git add -f viewer/file_data.json` で強制的にステージング（`.gitignore`で除外されているため）
+    3.  `git commit` して `push` すると自動的にS3へ反映されます
 
 ---
 &copy; 2026 Antigravity System | Advanced Agentic Coding Project
