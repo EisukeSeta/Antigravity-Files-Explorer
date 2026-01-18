@@ -768,7 +768,7 @@
             const cachedProjects = localStorage.getItem('antigravity_projects');
             const cachedActiveId = localStorage.getItem('antigravity_active_id');
             const cacheVersion = localStorage.getItem('antigravity_cache_ver');
-            const CURRENT_VER = '3';
+            const CURRENT_VER = '4';
 
             if (cachedProjects && cacheVersion === CURRENT_VER) {
                 projects = JSON.parse(cachedProjects);
@@ -780,14 +780,14 @@
                         id: 'default',
                         name: 'Explorer Source',
                         url: 'file_data.json',
-                        baseUri: 'https://www.seta.mydns.jp/Antigravity-Files-Explorer/',
+                        baseUri: 'https://raw.githubusercontent.com/EisukeSeta/Antigravity-Files-Explorer/main/viewer/',
                         data: []
                     },
                     {
                         id: 'repo-full',
                         name: 'Full Repository',
                         url: 'repo_data.json',
-                        baseUri: 'https://www.seta.mydns.jp/Antigravity-Files-Explorer/',
+                        baseUri: 'https://raw.githubusercontent.com/EisukeSeta/Antigravity-Files-Explorer/main/',
                         data: []
                     }
                 ];
@@ -1100,7 +1100,7 @@
         function canPreview(item) {
             const ext = item.ext;
             const name = item.name.toUpperCase();
-            return ['.jpg', '.png', '.gif', '.webp', '.svg', '.txt', '.js', '.json', '.css', '.py', '.html', '.md'].includes(ext) || name === 'LICENSE';
+            return ['.jpg', '.png', '.gif', '.webp', '.svg', '.txt', '.js', '.json', '.css', '.py', '.html', '.md', '.ps1', '.sh', '.yml', '.yaml', '.xml'].includes(ext) || name === 'LICENSE';
         }
 
         async function openPreview(item) {
