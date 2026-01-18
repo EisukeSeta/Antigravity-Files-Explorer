@@ -1,9 +1,58 @@
 [
   {
+    "name": "config.json",
+    "path": "config.json",
+    "isDir": false,
+    "size": 60,
+    "ext": ".json"
+  },
+  {
+    "name": "deploy.ps1",
+    "path": "deploy.ps1",
+    "isDir": false,
+    "size": 1563,
+    "ext": ".ps1"
+  },
+  {
+    "name": "file_data.json",
+    "path": "file_data.json",
+    "isDir": false,
+    "size": 120,
+    "ext": ".json"
+  },
+  {
     "name": "index.html",
     "path": "index.html",
     "isDir": false,
-    "size": 1334,
+    "size": 36350,
     "ext": ".html"
+  },
+  {
+    "name": "README.md",
+    "path": "README.md",
+    "isDir": false,
+    "size": 3275,
+    "ext": ".md"
+  },
+  {
+    "name": "repo_data.json",
+    "path": "repo_data.json",
+    "isDir": false,
+    "size": 8506,
+    "ext": ".json"
+  },
+  {
+    "name": "server.js",
+    "path": "server.js",
+    "isDir": false,
+    "size": 2318,
+    "ext": ".js"
+  },
+  {
+    "name": "update_files.js",
+    "path": "update_files.js",
+    "isDir": false,
+    "size": 2046,
+    "ext": ".js"
   }
 ]
