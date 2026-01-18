@@ -2,6 +2,15 @@
 
 GitHub Repository: [https://github.com/EisukeSeta/Antigravity-Files-Explorer](https://github.com/EisukeSeta/Antigravity-Files-Explorer)
 
+![Deploy to S3](https://github.com/EisukeSeta/Antigravity-Files-Explorer/actions/workflows/deploy.yml/badge.svg)
+
+## 🌐 ライブデモ
+
+**[https://www.seta.mydns.jp/Antigravity-Files-Explorer/](https://www.seta.mydns.jp/Antigravity-Files-Explorer/)** 🚀
+
+AWS S3で静的ホスティング中。ブラウザで直接アクセスしてファイルエクスプローラーを体験できます！  
+**GitHub Actionsによる自動デプロイで常に最新版を公開しています。**
+
 Antigravityがアクセス可能なローカルディレクトリのファイルを可視化し、ブラウザ上で高度な操作が可能な次世代ファイルエクスプローラーです。
 
 ## 🌟 主な機能
@@ -59,7 +68,36 @@ node viewer/server.js
 
 ## 🛠️ 技術スタック
 - **Frontend**: Vanilla JS (ES6+), CSS3 (Glassmorphism), [Marked.js](https://marked.js.org/) (MD Rendering)
-- **Backend**: Node.js (Built-in http module), PowerShell/cmd integration
+- **Backend (ローカル開発用)**: Node.js (Built-in http module), PowerShell/cmd integration
+
+## ☁️ AWS S3デプロイ
+
+このアプリケーションはAWS S3で静的ホスティング可能です。
+
+### 手動デプロイ
+
+```powershell
+# S3にアップロード
+.\deploy.ps1
+```
+
+### 自動デプロイ (GitHub Actions)
+
+mainブランチにpushすると、自動的にS3にデプロイされます:
+
+```bash
+git push origin main
+```
+
+### デプロイ先
+- **S3バケット**: `s3://www.seta.mydns.jp/Antigravity-Files-Explorer/`
+- **公開URL**: https://www.seta.mydns.jp/Antigravity-Files-Explorer/
+
+### 注意事項
+
+S3静的ホスティングでは、サーバーサイドAPIが使用できないため、以下の制限があります:
+- 「リストを更新」機能は無効化されています
+- `file_data.json`を更新するには、ローカルで`update_files.js`を実行後、再デプロイが必要です
 
 ---
 &copy; 2026 Antigravity System | Advanced Agentic Coding Project
