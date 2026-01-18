@@ -54,6 +54,7 @@ GitHub Repository: [https://github.com/EisukeSeta/Antigravity-Files-Explorer](ht
 - **`update_files.js`**: ディレクトリをスキャンして`file_data.json`を生成するNode.jsツール
 - **`config.json`**: スキャン対象から除外するフォルダの設定
 - **`file_data.json`**: viewerフォルダ内のファイル構成データ（Explorer Source用）
+- **`3d-viewer.json`**: 3Dビューワーリポジトリのファイル構成データ
 - **`repo_data.json`**: リポジトリ全体のファイル構成データ（Full Repository用）
 
 ## 🚀 使い方
