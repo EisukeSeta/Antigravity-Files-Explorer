@@ -2,9 +2,12 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-const rootDir = 'c:\\Win_tools\\Antigravity';
-const outputFilePath = path.join(rootDir, 'viewer', 'file_data.json');
-const configPath = path.join(rootDir, 'viewer', 'config.json');
+// コマンドライン引数からルートディレクトリを取得（指定がなければスクリプトの親ディレクトリをスキャン）
+const scanDir = process.argv[2] ? path.resolve(process.argv[2]) : path.dirname(__filename);
+const outputFileName = process.argv[3] || 'file_data.json';
+const outputFilePath = path.join(path.dirname(__filename), outputFileName);
+const configPath = path.join(path.dirname(__filename), 'config.json');
+
 let config = { exclude: [] };
 
 try {
@@ -20,11 +23,10 @@ function getFiles(dir, relativeDir = '') {
     let results = [];
 
     files.forEach(file => {
-        // config.jsonの除外リストに基づいてスキップ
         if (config.exclude.includes(file)) return;
 
         const fullPath = path.join(dir, file);
-        const relPath = path.join(relativeDir, file);
+        const relPath = path.join(relativeDir, file).replace(/\\/g, '/'); // Web用にスラッシュにする
         const stats = fs.statSync(fullPath);
 
         if (stats.isDirectory()) {
@@ -49,9 +51,10 @@ function getFiles(dir, relativeDir = '') {
 }
 
 try {
-    const data = getFiles(rootDir);
+    console.log(`Scanning: ${scanDir}...`);
+    const data = getFiles(scanDir);
     fs.writeFileSync(outputFilePath, JSON.stringify(data, null, 2));
-    console.log('File data updated successfully.');
+    console.log(`Successfully generated ${outputFileName} at ${outputFilePath}`);
 } catch (err) {
     console.error('Error scanning files:', err);
     process.exit(1);

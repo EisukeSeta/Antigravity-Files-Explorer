@@ -1,0 +1,198 @@
+[
+  {
+    "name": ".github",
+    "path": ".github",
+    "isDir": true,
+    "children": [
+      {
+        "name": "workflows",
+        "path": ".github/workflows",
+        "isDir": true,
+        "children": [
+          {
+            "name": "deploy.yml",
+            "path": ".github/workflows/deploy.yml",
+            "isDir": false,
+            "size": 1408,
+            "ext": ".yml"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": ".gitignore",
+    "path": ".gitignore",
+    "isDir": false,
+    "size": 189,
+    "ext": ""
+  },
+  {
+    "name": "3d-viewer.code-workspace",
+    "path": "3d-viewer.code-workspace",
+    "isDir": false,
+    "size": 123,
+    "ext": ".code-workspace"
+  },
+  {
+    "name": "deploy-root.ps1",
+    "path": "deploy-root.ps1",
+    "isDir": false,
+    "size": 1353,
+    "ext": ".ps1"
+  },
+  {
+    "name": "deploy.ps1",
+    "path": "deploy.ps1",
+    "isDir": false,
+    "size": 1441,
+    "ext": ".ps1"
+  },
+  {
+    "name": "DEPLOYMENT.md",
+    "path": "DEPLOYMENT.md",
+    "isDir": false,
+    "size": 5380,
+    "ext": ".md"
+  },
+  {
+    "name": "dist",
+    "path": "dist",
+    "isDir": true,
+    "children": [
+      {
+        "name": "assets",
+        "path": "dist/assets",
+        "isDir": true,
+        "children": [
+          {
+            "name": "index-B1iERQve.js",
+            "path": "dist/assets/index-B1iERQve.js",
+            "isDir": false,
+            "size": 652298,
+            "ext": ".js"
+          },
+          {
+            "name": "index-B1iERQve.js.map",
+            "path": "dist/assets/index-B1iERQve.js.map",
+            "isDir": false,
+            "size": 2629545,
+            "ext": ".map"
+          },
+          {
+            "name": "index-gShQjG2P.css",
+            "path": "dist/assets/index-gShQjG2P.css",
+            "isDir": false,
+            "size": 12311,
+            "ext": ".css"
+          }
+        ]
+      },
+      {
+        "name": "index.html",
+        "path": "dist/index.html",
+        "isDir": false,
+        "size": 11797,
+        "ext": ".html"
+      }
+    ]
+  },
+  {
+    "name": "GITHUB_ACTIONS.md",
+    "path": "GITHUB_ACTIONS.md",
+    "isDir": false,
+    "size": 7086,
+    "ext": ".md"
+  },
+  {
+    "name": "index.html",
+    "path": "index.html",
+    "isDir": false,
+    "size": 11726,
+    "ext": ".html"
+  },
+  {
+    "name": "main.js",
+    "path": "main.js",
+    "isDir": false,
+    "size": 34235,
+    "ext": ".js"
+  },
+  {
+    "name": "package-lock.json",
+    "path": "package-lock.json",
+    "isDir": false,
+    "size": 32073,
+    "ext": ".json"
+  },
+  {
+    "name": "package.json",
+    "path": "package.json",
+    "isDir": false,
+    "size": 530,
+    "ext": ".json"
+  },
+  {
+    "name": "README.md",
+    "path": "README.md",
+    "isDir": false,
+    "size": 9072,
+    "ext": ".md"
+  },
+  {
+    "name": "samples",
+    "path": "samples",
+    "isDir": true,
+    "children": [
+      {
+        "name": "Avocado.glb",
+        "path": "samples/Avocado.glb",
+        "isDir": false,
+        "size": 8110040,
+        "ext": ".glb"
+      },
+      {
+        "name": "Box.glb",
+        "path": "samples/Box.glb",
+        "isDir": false,
+        "size": 1664,
+        "ext": ".glb"
+      },
+      {
+        "name": "DamagedHelmet.glb",
+        "path": "samples/DamagedHelmet.glb",
+        "isDir": false,
+        "size": 3773916,
+        "ext": ".glb"
+      },
+      {
+        "name": "Duck.glb",
+        "path": "samples/Duck.glb",
+        "isDir": false,
+        "size": 120484,
+        "ext": ".glb"
+      }
+    ]
+  },
+  {
+    "name": "style.css",
+    "path": "style.css",
+    "isDir": false,
+    "size": 19375,
+    "ext": ".css"
+  },
+  {
+    "name": "TEST_RESULTS.md",
+    "path": "TEST_RESULTS.md",
+    "isDir": false,
+    "size": 4785,
+    "ext": ".md"
+  },
+  {
+    "name": "vite.config.js",
+    "path": "vite.config.js",
+    "isDir": false,
+    "size": 313,
+    "ext": ".js"
+  }
+]
